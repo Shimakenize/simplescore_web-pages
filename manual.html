@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SimpleScore ユーザーマニュアル</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Mono:wght@400;500&family=Barlow+Condensed:wght@600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #4ade80;
+    --green-dark: #16a34a;
+    --green-glow: rgba(74,222,128,0.18);
+    --bg: #0a0f0a;
+    --surface: #111a11;
+    --surface2: #162016;
+    --border: #1e2e1e;
+    --text: #e8f5e8;
+    --text-muted: #6b8f6b;
+    --text-dim: #3a5a3a;
+    --accent: #a3e635;
+    --white: #f0faf0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    line-height: 1.8;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    overflow: hidden;
+    padding: 80px 40px 60px;
+    border-bottom: 1px solid var(--border);
+    background: 
+      radial-gradient(ellipse 60% 80% at 80% 50%, rgba(74,222,128,0.07) 0%, transparent 70%),
+      var(--surface);
+  }
+
+  .header-grid {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .app-icon {
+    width: 88px;
+    height: 88px;
+    background: linear-gradient(135deg, #1a2e1a, #0d1a0d);
+    border: 1px solid var(--green);
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    box-shadow: 0 0 32px rgba(74,222,128,0.2), inset 0 1px 0 rgba(74,222,128,0.15);
+    flex-shrink: 0;
+  }
+
+  .header-text {}
+
+  .app-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 52px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .app-name span {
+    color: var(--green);
+  }
+
+  .app-tagline {
+    font-size: 14px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    font-weight: 400;
+  }
+
+  .version-badge {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 3px 10px;
+    background: var(--green-glow);
+    border: 1px solid var(--green-dark);
+    border-radius: 100px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── LAYOUT ── */
+  .layout {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 0;
+    min-height: calc(100vh - 220px);
+  }
+
+  /* ── SIDEBAR ── */
+  nav {
+    padding: 40px 0 40px 40px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 1px solid var(--border);
+  }
+
+  nav::-webkit-scrollbar { width: 4px; }
+  nav::-webkit-scrollbar-track { background: transparent; }
+  nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .nav-section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    margin-top: 24px;
+    padding-left: 12px;
+  }
+
+  .nav-section-label:first-child { margin-top: 0; }
+
+  nav a {
+    display: block;
+    padding: 7px 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    border-left: 2px solid transparent;
+    transition: all 0.15s ease;
+    line-height: 1.4;
+  }
+
+  nav a:hover {
+    color: var(--green);
+    border-left-color: var(--green);
+    background: var(--green-glow);
+  }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    padding: 48px 48px 80px;
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    margin-bottom: 64px;
+    padding-bottom: 64px;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .section:last-child { border-bottom: none; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.5px;
+    margin-bottom: 20px;
+    line-height: 1.1;
+  }
+
+  h3 {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    margin: 28px 0 12px;
+    padding-left: 14px;
+    border-left: 3px solid var(--green);
+    line-height: 1.4;
+  }
+
+  p {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.9;
+    margin-bottom: 14px;
+  }
+
+  /* ── FEATURE GRID ── */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 24px 0;
+  }
+
+  .feature-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    transition: border-color 0.2s;
+  }
+
+  .feature-card:hover { border-color: var(--green-dark); }
+
+  .feature-icon {
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+
+  .feature-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .feature-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ── TABS DISPLAY ── */
+  .tabs-display {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 20px 0;
+  }
+
+  .tab-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 12px;
+    text-align: center;
+  }
+
+  .tab-number {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--green);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .tab-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  .tab-desc {
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  /* ── FLOW ── */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 20px 0;
+    position: relative;
+  }
+
+  .flow::before {
+    content: '';
+    position: absolute;
+    left: 22px;
+    top: 44px;
+    bottom: 22px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--green-dark), transparent);
+  }
+
+  .flow-step {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 12px 0;
+  }
+
+  .flow-num {
+    width: 44px;
+    height: 44px;
+    background: var(--surface2);
+    border: 1px solid var(--green-dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--green);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .flow-content {}
+  .flow-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+  .flow-body {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ── TABLE ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 16px 0;
+  }
+
+  th {
+    background: var(--surface2);
+    color: var(--green);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 500;
+  }
+
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface2); }
+
+  /* ── CALLOUT ── */
+  .callout {
+    border: 1px solid;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 13px;
+    line-height: 1.7;
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .callout.tip {
+    border-color: var(--green-dark);
+    background: rgba(22,163,74,0.08);
+    color: var(--text);
+  }
+
+  .callout.warn {
+    border-color: #92400e;
+    background: rgba(146,64,14,0.1);
+    color: #fde68a;
+  }
+
+  .callout-icon { font-size: 15px; margin-top: 1px; }
+
+  /* ── CODE ── */
+  code {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 2px 7px;
+    border-radius: 4px;
+    color: var(--accent);
+  }
+
+  /* ── HISTORY TABLE ── */
+  .history-row {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+
+  .history-row:last-child { border-bottom: none; }
+
+  .history-version {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--green);
+    padding-top: 2px;
+  }
+
+  .history-items {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  .history-items ul { padding-left: 16px; }
+  .history-items li { margin-bottom: 4px; }
+  .tag {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    margin-right: 4px;
+    font-family: 'DM Mono', monospace;
+  }
+  .tag.new { background: rgba(74,222,128,0.15); color: var(--green); border: 1px solid var(--green-dark); }
+  .tag.fix { background: rgba(251,191,36,0.1); color: #fbbf24; border: 1px solid #92400e; }
+  .tag.ui { background: rgba(96,165,250,0.1); color: #60a5fa; border: 1px solid #1d4ed8; }
+
+  /* ── HOME AUTH STATUS ── */
+  .auth-status {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+
+  .auth-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    font-size: 13px;
+  }
+
+  .auth-row + .auth-row { border-top: 1px solid var(--border); }
+
+  .auth-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .auth-dot.google { background: #4285f4; }
+  .auth-dot.youtube { background: #ff0000; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .layout { grid-template-columns: 1fr; }
+    nav { display: none; }
+    main { padding: 24px 20px 60px; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .tabs-display { grid-template-columns: repeat(2, 1fr); }
+    .header-grid { grid-template-columns: 1fr; }
+    .app-icon { display: none; }
+    header { padding: 40px 20px 32px; }
+    h2 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-grid">
+    <div class="app-icon">⚽</div>
+    <div class="header-text">
+      <div class="app-name">Simple<span>Score</span></div>
+      <div class="app-tagline">試合スコア記録アプリ — ユーザーマニュアル</div>
+      <div class="version-badge">v1.0.14</div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR NAV -->
+  <nav>
+    <div class="nav-section-label">はじめに</div>
+    <a href="#overview">アプリ概要</a>
+    <a href="#tabs">タブ構成</a>
+
+    <div class="nav-section-label">試合の記録</div>
+    <a href="#setup">試合設定</a>
+    <a href="#match">試合中の操作</a>
+    <a href="#result">試合結果・共有</a>
+    <a href="#tweak">ちょこっと修正</a>
+
+    <div class="nav-section-label">データ管理</div>
+    <a href="#history">試合履歴</a>
+    <a href="#myteams">My Teams</a>
+    <a href="#drive">Google Drive バックアップ</a>
+
+    <div class="nav-section-label">連携機能</div>
+    <a href="#youtube">YouTube 連携</a>
+    <a href="#liveactivity">Live Activities</a>
+
+    <div class="nav-section-label">その他</div>
+    <a href="#changelog">更新履歴</a>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- 概要 -->
+    <section class="section" id="overview">
+      <div class="section-eyebrow">01 / はじめに</div>
+      <h2>アプリ概要</h2>
+      <p>SimpleScore は、サッカーをはじめとする試合のスコアをシンプルに記録するiOS・Webアプリです。得点者・招集メンバー・出場メンバーの管理から、試合結果の共有・バックアップまで、現場で必要な機能を一通り揃えています。</p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📋</div>
+          <div class="feature-title">スコア記録</div>
+          <div class="feature-desc">チームA vs チームB。得点・オウンゴールをリアルタイムで記録</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">👥</div>
+          <div class="feature-title">メンバー管理</div>
+          <div class="feature-desc">招集メンバー・出場中メンバーをその場で管理</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📤</div>
+          <div class="feature-title">結果共有</div>
+          <div class="feature-desc">試合結果をテキスト形式でかんたんに共有</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">☁️</div>
+          <div class="feature-title">Drive バックアップ</div>
+          <div class="feature-desc">Google Drive に自動保存。5世代まで管理</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">▶️</div>
+          <div class="feature-title">YouTube 連携</div>
+          <div class="feature-desc">試合動画のタイトル・説明を一括更新</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔴</div>
+          <div class="feature-title">Live Activities</div>
+          <div class="feature-desc">ロック画面・Dynamic Island でスコアをリアルタイム表示</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- タブ構成 -->
+    <section class="section" id="tabs">
+      <div class="section-eyebrow">02 / 画面構成</div>
+      <h2>タブ構成</h2>
+      <p>アプリは画面下部の4つのタブで構成されています。</p>
+
+      <div class="tabs-display">
+        <div class="tab-item">
+          <div class="tab-number">1</div>
+          <div class="tab-name">Score Input</div>
+          <div class="tab-desc">試合設定・スコア入力</div>
+        </div>
+        <div class="tab-item">
+          <div class="tab-number">2</div>
+          <div class="tab-name">Score History</div>
+          <div class="tab-desc">試合結果の履歴</div>
+        </div>
+        <div class="tab-item">
+          <div class="tab-number">3</div>
+          <div class="tab-name">YouTube</div>
+          <div class="tab-desc">動画紐付け・反映</div>
+        </div>
+        <div class="tab-item">
+          <div class="tab-number">4</div>
+          <div class="tab-name">Drive</div>
+          <div class="tab-desc">バックアップ管理</div>
+        </div>
+      </div>
+
+      <h3>ホーム画面の認証状態表示</h3>
+      <p>タイトルの直下に Google アカウントと YouTube の連携状態が常時表示されます。</p>
+      <div class="auth-status">
+        <div class="auth-row">
+          <div class="auth-dot google"></div>
+          <span style="color:var(--text-muted); font-size:13px;">Google: example@gmail.com（サインイン済み）</span>
+        </div>
+        <div class="auth-row">
+          <div class="auth-dot youtube"></div>
+          <span style="color:var(--text-muted); font-size:13px;">YouTube: 連携済み</span>
+        </div>
+      </div>
+      <p>未サインインの場合はサインインを促すボタンが表示されます。</p>
+    </section>
+
+    <!-- 試合設定 -->
+    <section class="section" id="setup">
+      <div class="section-eyebrow">03 / 試合を記録する</div>
+      <h2>試合設定（Match Setup）</h2>
+      <p>「Score Input」タブから <strong>Match Setup</strong> 画面を開き、試合前に以下を設定します。</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>項目</th>
+            <th>説明</th>
+            <th>必須</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Sleep off</strong></td>
+            <td>試合中に画面を消灯させない。Match Setup の一番上で ON/OFF を切り替え。試合画面を離れると自動解除</td>
+            <td>任意</td>
+          </tr>
+          <tr>
+            <td><strong>チーム名</strong></td>
+            <td>チームA・チームB の名前。My Teams から選択すると自動入力。直近3件の履歴からプルダウンでも選択可</td>
+            <td>必須</td>
+          </tr>
+          <tr>
+            <td><strong>ハーフ時間</strong></td>
+            <td>前半・後半の時間（分）を設定。設定するとタイマーが機能する</td>
+            <td>任意</td>
+          </tr>
+          <tr>
+            <td><strong>Roster member（招集メンバー）</strong></td>
+            <td>当日の招集メンバーを選択。得点者の候補を招集メンバーに絞れる。直近10件の招集リストから再利用も可能</td>
+            <td>任意</td>
+          </tr>
+          <tr>
+            <td><strong>On-field member（出場メンバー）</strong></td>
+            <td>試合中に出場中／控えをチェックで管理。得点者選択画面で出場中メンバーを上段に表示</td>
+            <td>任意</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <span>Roster と On-field はどちらか片方だけ、または両方使うことができます。どちらも設定しなくても試合は記録できます。</span>
+      </div>
+    </section>
+
+    <!-- 試合中の操作 -->
+    <section class="section" id="match">
+      <div class="section-eyebrow">04 / 試合を記録する</div>
+      <h2>試合中の操作（Match Screen）</h2>
+
+      <h3>得点の記録</h3>
+      <p>得点ボタンをタップすると得点者選択画面が開きます。出場中メンバーは一覧の上段に表示されます。</p>
+
+      <table>
+        <thead>
+          <tr><th>操作</th><th>内容</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>選手を選択</td>
+            <td>背番号・名前から選択してスコアを更新</td>
+          </tr>
+          <tr>
+            <td><code>?</code> を選択</td>
+            <td>得点者不明として記録。共有テキストでは「?」と表示</td>
+          </tr>
+          <tr>
+            <td>選手＋<code>?</code> を付与</td>
+            <td>選手を選んだあとに「?」を付ける。「不確か」として記録（共有で「#10 サトウ ?」と表示）</td>
+          </tr>
+          <tr>
+            <td>オウンゴール</td>
+            <td>オウンゴールとして相手チームの得点を加算</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>前半終了・後半終了</h3>
+      <p>前半終了ボタンを押すとハーフタイム画面に移行し、前半結果を共有するボタンが表示されます。後半終了後は結果画面（Result Screen）に進みます。</p>
+
+      <h3>延長・PK</h3>
+      <p>通常の前後半に加え、延長前半・延長後半・PK も記録できます。各フェーズのラベルは日本語で表示されます。</p>
+    </section>
+
+    <!-- 試合結果・共有 -->
+    <section class="section" id="result">
+      <div class="section-eyebrow">05 / 試合を記録する</div>
+      <h2>試合結果・共有（Result Screen）</h2>
+      <p>試合終了後は Result 画面で結果を確認・共有できます。</p>
+
+      <table>
+        <thead>
+          <tr><th>ボタン</th><th>内容</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>クイック共有（推奨）</strong></td>
+            <td>試合全体の結果をまとめて共有。最もかんたんな共有方法</td>
+          </tr>
+          <tr>
+            <td><strong>詳細結果</strong></td>
+            <td>全体＋前半＋後半（＋延長・PK があれば）をまとめて共有</td>
+          </tr>
+          <tr>
+            <td><strong>前半 / 後半</strong></td>
+            <td>前半・後半の結果のみを個別に共有</td>
+          </tr>
+          <tr>
+            <td><strong>延長</strong></td>
+            <td>延長がある場合のみ表示。延長結果を共有</td>
+          </tr>
+          <tr>
+            <td><strong>ちょこっと修正</strong></td>
+            <td>得点者・試合名・日時などを修正してから共有。<a href="#tweak" style="color:var(--green)">詳細は次節</a>参照</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <span>共有ボタンを押すと、送信前にテキストのプレビューが表示されます。内容を確認してから共有できます。</span>
+      </div>
+    </section>
+
+    <!-- ちょこっと修正 -->
+    <section class="section" id="tweak">
+      <div class="section-eyebrow">06 / 試合を記録する</div>
+      <h2>ちょこっと修正</h2>
+      <p>試合終了後や履歴から、記録内容を修正してから共有できます。</p>
+
+      <h3>修正できる項目</h3>
+      <table>
+        <thead>
+          <tr><th>種別</th><th>内容</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>得点まわり</strong></td>
+            <td>得点者の変更、得点イベントの追加・削除（スコアは連動して再計算）</td>
+          </tr>
+          <tr>
+            <td><strong>テキストのみ</strong></td>
+            <td>試合名・日時・チーム名・試合時間の表示テキスト、PKスコアの表示テキスト</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>操作方法</h3>
+      <p>得点イベントの一覧が表示され、「前半 5' A #10 ニイミ」のように各行が表示されます。<strong>フェーズ・時間・チーム・得点者</strong>のそれぞれをタップすると、その項目だけを修正する小さいダイアログが開きます。</p>
+
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <span>スコアの数値を直接書き換えることはできません。得点イベントの追加・削除を通じてスコアが再計算されます。</span>
+      </div>
+
+      <h3>履歴からの修正</h3>
+      <p>Score History で結果を <strong>1件だけ</strong> 選択した状態で「選択した結果をちょこっと修正」ボタンをタップすると、同じ修正画面が開きます（2件以上の選択時はエラーになります）。</p>
+    </section>
+
+    <!-- 試合履歴 -->
+    <section class="section" id="history">
+      <div class="section-eyebrow">07 / データ管理</div>
+      <h2>試合履歴（Score History）</h2>
+      <p>過去の試合結果が一覧表示されます。</p>
+
+      <h3>削除とゴミ箱</h3>
+      <p>結果を選択して削除すると、ゴミ箱に移動します。ゴミ箱は最大 <strong>10件</strong> を保持し、「元に戻す」で復元できます。</p>
+
+      <h3>直近10件の招集リスト再利用</h3>
+      <p>Match Setup の Roster member 選択時に、直近10件の招集メンバーリストから選択して再利用できます（チームごとに保存）。</p>
+    </section>
+
+    <!-- My Teams -->
+    <section class="section" id="myteams">
+      <div class="section-eyebrow">08 / データ管理</div>
+      <h2>My Teams</h2>
+      <p>よく使うチームとメンバーを登録しておくと、試合設定や得点者選択で繰り返し使えます。</p>
+
+      <h3>プロファイル名とスコア表示名</h3>
+      <table>
+        <thead>
+          <tr><th>フィールド</th><th>用途</th><th>例</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>プロファイル名</strong><br><code>name</code></td>
+            <td>チーム一覧での識別名</td>
+            <td>フレンズFC(山田)</td>
+          </tr>
+          <tr>
+            <td><strong>スコア表示名</strong><br><code>displayName</code></td>
+            <td>スコアボード・試合記録での表示名（省略可）</td>
+            <td>フレンズFC</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <span>スコア表示名が空の場合は、プロファイル名がそのままスコアに使われます。「フレンズFC(山田)」「フレンズFC(鈴木)」の2チームを、スコアボードでは両方「フレンズFC」として表示したい場合に便利です。</span>
+      </div>
+
+      <h3>エクスポート・インポート</h3>
+      <p>チームデータは JSON または CSV 形式でエクスポートできます。別の端末へのデータ移行や、バックアップとして活用できます。</p>
+    </section>
+
+    <!-- Google Drive バックアップ -->
+    <section class="section" id="drive">
+      <div class="section-eyebrow">09 / データ管理</div>
+      <h2>Google Drive バックアップ</h2>
+      <p>試合記録・チームデータを Google Drive に自動バックアップします。機種変更時のデータ引き継ぎや、誤操作後の復元に使えます。</p>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-num">1</div>
+          <div class="flow-content">
+            <div class="flow-title">Google サインイン</div>
+            <div class="flow-body">ホーム画面の Google 認証状態からサインイン。起動時に自動でサイレントサインインを試みます。</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">2</div>
+          <div class="flow-content">
+            <div class="flow-title">自動バックアップ</div>
+            <div class="flow-body">データが変更されると自動でバックアップが実行されます（デバウンス処理）。</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">3</div>
+          <div class="flow-content">
+            <div class="flow-title">自動復元（起動時）</div>
+            <div class="flow-body">起動時に Drive バックアップと端末データを比較し、Drive 側が新しければ自動で復元します。</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">4</div>
+          <div class="flow-content">
+            <div class="flow-title">手動で過去世代に戻す</div>
+            <div class="flow-body">「Drive」タブ（タブ4）でバックアップ履歴を確認。最大5世代を保持しており、任意の世代に手動復元できます。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <span>バックアップは Drive の AppData フォルダに保存されるため、ユーザーの通常の Drive 容量を圧迫しません。</span>
+      </div>
+    </section>
+
+    <!-- YouTube 連携 -->
+    <section class="section" id="youtube">
+      <div class="section-eyebrow">10 / 連携機能</div>
+      <h2>YouTube 連携</h2>
+      <p>試合を録画した YouTube 動画のメタデータを、アプリから一括更新できます。</p>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-num">1</div>
+          <div class="flow-content">
+            <div class="flow-title">YouTube タブを開く</div>
+            <div class="flow-body">タブ3「YouTube」を開くと、チャンネルの動画一覧とプレイリスト一覧が自動取得されます。</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">2</div>
+          <div class="flow-content">
+            <div class="flow-title">フェーズと動画を紐付け</div>
+            <div class="flow-body">前半・後半などの試合フェーズごとに動画を紐付けます。</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">3</div>
+          <div class="flow-content">
+            <div class="flow-title">プレイリストを選択（任意）</div>
+            <div class="flow-body">追加したいプレイリストをドロップダウンから選択します。「追加しない」もデフォルトで選択可能です。</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">4</div>
+          <div class="flow-content">
+            <div class="flow-title">「YouTube に反映する」</div>
+            <div class="flow-body">タイトル・説明を一括更新。選択したプレイリストへの追加も同時に行われます。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live Activities -->
+    <section class="section" id="liveactivity">
+      <div class="section-eyebrow">11 / 連携機能</div>
+      <h2>Live Activities（iOS）</h2>
+      <p>iOS 16.1 以上の端末では、試合中にロック画面と Dynamic Island にスコアと経過時間をリアルタイム表示できます。</p>
+
+      <table>
+        <thead>
+          <tr><th>表示場所</th><th>内容</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>ロック画面</strong></td>
+            <td>スコア・チーム名・残り時間（または経過時間）</td>
+          </tr>
+          <tr>
+            <td><strong>Dynamic Island</strong></td>
+            <td>コンパクト表示でスコアと時間</td>
+          </tr>
+          <tr>
+            <td><strong>スタンバイ画面</strong></td>
+            <td>充電中のスタンバイ表示にも対応</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <span>試合中にホームボタンを押してもロック画面でスコアを確認できます。iOS 16.0 以下の端末では Live Activities は機能しませんが、アプリの他の機能は通常通り使えます。</span>
+      </div>
+    </section>
+
+    <!-- 更新履歴 -->
+    <section class="section" id="changelog">
+      <div class="section-eyebrow">12 / 更新履歴</div>
+      <h2>バージョン履歴</h2>
+
+      <div class="history-row">
+        <div class="history-version">v1.0.14</div>
+        <div class="history-items">
+          <ul>
+            <li><span class="tag new">NEW</span>Google Drive バックアップ（5世代管理）</li>
+            <li><span class="tag new">NEW</span>YouTube プレイリスト登録対応</li>
+            <li><span class="tag new">NEW</span>My Teams にスコア表示名を追加</li>
+            <li><span class="tag ui">UI</span>ホーム画面に Google/YouTube の認証状態を常時表示</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="history-row">
+        <div class="history-version">v1.0.13</div>
+        <div class="history-items">
+          <ul>
+            <li><span class="tag fix">FIX</span>バックグラウンド移行時にアプリが終了する不具合を修正</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="history-row">
+        <div class="history-version">v1.0.12</div>
+        <div class="history-items">
+          <ul>
+            <li><span class="tag new">NEW</span>Live Activities 対応（ロック画面・Dynamic Island）</li>
+            <li><span class="tag ui">UI</span>フェーズラベルを日本語化（前半・後半・延長前半・延長後半・PK）</li>
+            <li><span class="tag ui">UI</span>試合中タイマーを2行で大きく表示</li>
+            <li><span class="tag fix">FIX</span>バックグラウンド時の自動保存不具合を修正</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="history-row">
+        <div class="history-version">v1.0.9</div>
+        <div class="history-items">
+          <ul>
+            <li><span class="tag new">NEW</span>Sleep off（試合中の画面消灯防止）</li>
+            <li><span class="tag new">NEW</span>ちょこっと修正機能</li>
+            <li><span class="tag new">NEW</span>試合結果の削除・ゴミ箱（最大10件）</li>
+            <li><span class="tag new">NEW</span>得点者に「?」を付与</li>
+            <li><span class="tag ui">UI</span>クイック共有・共有プレビューを追加</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="history-row">
+        <div class="history-version">v1.0.7</div>
+        <div class="history-items">
+          <ul>
+            <li><span class="tag ui">UI</span>試合名を見出しに使用、3行スコア表示</li>
+            <li><span class="tag new">NEW</span>試合名の履歴プルダウン（直近3件）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="history-row">
+        <div class="history-version">v1.0.5</div>
+        <div class="history-items">
+          <ul>
+            <li><span class="tag new">NEW</span>Roster member（招集メンバー）機能</li>
+            <li><span class="tag new">NEW</span>On-field member（出場メンバー）管理</li>
+            <li><span class="tag new">NEW</span>直近10件の招集リスト再利用</li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // ナビリンクのアクティブ状態
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('nav a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.style.color = '');
+        navLinks.forEach(l => {
+          if (l.getAttribute('href') === '#' + entry.target.id) {
+            l.style.color = 'var(--green)';
+            l.style.borderLeftColor = 'var(--green)';
+          } else {
+            l.style.borderLeftColor = 'transparent';
+          }
+        });
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SimpleScore User Manual</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Mono:wght@400;500&family=Barlow+Condensed:wght@600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #4ade80;
+    --green-dark: #16a34a;
+    --green-glow: rgba(74,222,128,0.18);
+    --bg: #0a0f0a;
+    --surface: #111a11;
+    --surface2: #162016;
+    --border: #1e2e1e;
+    --text: #e8f5e8;
+    --text-muted: #6b8f6b;
+    --text-dim: #3a5a3a;
+    --accent: #a3e635;
+    --white: #f0faf0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    line-height: 1.8;
+    min-height: 100vh;
+  }
+
+  header {
+    position: relative;
+    overflow: hidden;
+    padding: 80px 40px 60px;
+    border-bottom: 1px solid var(--border);
+    background:
+      radial-gradient(ellipse 60% 80% at 80% 50%, rgba(74,222,128,0.07) 0%, transparent 70%),
+      var(--surface);
+  }
+
+  .header-grid {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .app-icon {
+    width: 88px;
+    height: 88px;
+    background: linear-gradient(135deg, #1a2e1a, #0d1a0d);
+    border: 1px solid var(--green);
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    box-shadow: 0 0 32px rgba(74,222,128,0.2), inset 0 1px 0 rgba(74,222,128,0.15);
+    flex-shrink: 0;
+  }
+
+  .app-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 52px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .app-name span { color: var(--green); }
+
+  .app-tagline {
+    font-size: 14px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    font-weight: 400;
+  }
+
+  .version-badge {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 3px 10px;
+    background: var(--green-glow);
+    border: 1px solid var(--green-dark);
+    border-radius: 100px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 0.05em;
+  }
+
+  .layout {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 0;
+    min-height: calc(100vh - 220px);
+  }
+
+  nav {
+    padding: 40px 0 40px 40px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 1px solid var(--border);
+  }
+
+  nav::-webkit-scrollbar { width: 4px; }
+  nav::-webkit-scrollbar-track { background: transparent; }
+  nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .nav-section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    margin-top: 24px;
+    padding-left: 12px;
+  }
+
+  .nav-section-label:first-child { margin-top: 0; }
+
+  nav a {
+    display: block;
+    padding: 7px 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    border-left: 2px solid transparent;
+    transition: all 0.15s ease;
+    line-height: 1.4;
+  }
+
+  nav a:hover {
+    color: var(--green);
+    border-left-color: var(--green);
+    background: var(--green-glow);
+  }
+
+  main { padding: 48px 48px 80px; }
+
+  .section {
+    margin-bottom: 64px;
+    padding-bottom: 64px;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .section:last-child { border-bottom: none; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.5px;
+    margin-bottom: 20px;
+    line-height: 1.1;
+  }
+
+  h3 {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    margin: 28px 0 12px;
+    padding-left: 14px;
+    border-left: 3px solid var(--green);
+    line-height: 1.4;
+  }
+
+  p {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.9;
+    margin-bottom: 14px;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 24px 0;
+  }
+
+  .feature-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    transition: border-color 0.2s;
+  }
+
+  .feature-card:hover { border-color: var(--green-dark); }
+
+  .feature-icon { font-size: 22px; margin-bottom: 8px; }
+
+  .feature-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .feature-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .tabs-display {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 20px 0;
+  }
+
+  .tab-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 12px;
+    text-align: center;
+  }
+
+  .tab-number {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--green);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .tab-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  .tab-desc { font-size: 10px; color: var(--text-muted); }
+
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 20px 0;
+    position: relative;
+  }
+
+  .flow::before {
+    content: '';
+    position: absolute;
+    left: 22px;
+    top: 44px;
+    bottom: 22px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--green-dark), transparent);
+  }
+
+  .flow-step {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 12px 0;
+  }
+
+  .flow-num {
+    width: 44px;
+    height: 44px;
+    background: var(--surface2);
+    border: 1px solid var(--green-dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--green);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .flow-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  .flow-body {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 16px 0;
+  }
+
+  th {
+    background: var(--surface2);
+    color: var(--green);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 500;
+  }
+
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface2); }
+
+  .callout {
+    border: 1px solid;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 13px;
+    line-height: 1.7;
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .callout.tip {
+    border-color: var(--green-dark);
+    background: rgba(22,163,74,0.08);
+    color: var(--text);
+  }
+
+  .callout.warn {
+    border-color: #92400e;
+    background: rgba(146,64,14,0.1);
+    color: #fde68a;
+  }
+
+  .callout-icon { font-size: 15px; margin-top: 1px; }
+
+  code {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 2px 7px;
+    border-radius: 4px;
+    color: var(--accent);
+  }
+
+  .history-row {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+
+  .history-row:last-child { border-bottom: none; }
+
+  .history-version {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--green);
+    padding-top: 2px;
+  }
+
+  .history-items { font-size: 13px; color: var(--text); line-height: 1.7; }
+  .history-items ul { padding-left: 16px; }
+  .history-items li { margin-bottom: 4px; }
+
+  .tag {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    margin-right: 4px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .tag.new { background: rgba(74,222,128,0.15); color: var(--green); border: 1px solid var(--green-dark); }
+  .tag.fix { background: rgba(251,191,36,0.1); color: #fbbf24; border: 1px solid #92400e; }
+  .tag.ui  { background: rgba(96,165,250,0.1); color: #60a5fa; border: 1px solid #1d4ed8; }
+
+  .auth-status {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+
+  .auth-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    font-size: 13px;
+  }
+
+  .auth-row + .auth-row { border-top: 1px solid var(--border); }
+
+  .auth-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .auth-dot.google  { background: #4285f4; }
+  .auth-dot.youtube { background: #ff0000; }
+
+  @media (max-width: 700px) {
+    .layout { grid-template-columns: 1fr; }
+    nav { display: none; }
+    main { padding: 24px 20px 60px; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .tabs-display { grid-template-columns: repeat(2, 1fr); }
+    .header-grid { grid-template-columns: 1fr; }
+    .app-icon { display: none; }
+    header { padding: 40px 20px 32px; }
+    h2 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-grid">
+    <div class="app-icon">⚽</div>
+    <div class="header-text">
+      <div class="app-name">Simple<span>Score</span></div>
+      <div class="app-tagline">Match Score Recording App — User Manual</div>
+      <div class="version-badge">v1.0.14</div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <nav>
+    <div class="nav-section-label">Getting Started</div>
+    <a href="#overview">Overview</a>
+    <a href="#tabs">Tab Structure</a>
+
+    <div class="nav-section-label">Recording a Match</div>
+    <a href="#setup">Match Setup</a>
+    <a href="#match">During the Match</a>
+    <a href="#result">Result &amp; Sharing</a>
+    <a href="#tweak">Quick Edit</a>
+
+    <div class="nav-section-label">Data Management</div>
+    <a href="#history">Match History</a>
+    <a href="#myteams">My Teams</a>
+    <a href="#drive">Google Drive Backup</a>
+
+    <div class="nav-section-label">Integrations</div>
+    <a href="#youtube">YouTube</a>
+    <a href="#liveactivity">Live Activities</a>
+
+    <div class="nav-section-label">Reference</div>
+    <a href="#changelog">Changelog</a>
+  </nav>
+
+  <main>
+
+    <!-- Overview -->
+    <section class="section" id="overview">
+      <div class="section-eyebrow">01 / Getting Started</div>
+      <h2>Overview</h2>
+      <p>SimpleScore is an iOS and web app for recording match scores simply and quickly. From managing scorers and roster/on-field members to sharing results and backing up data, it covers everything you need on the sideline.</p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📋</div>
+          <div class="feature-title">Score Recording</div>
+          <div class="feature-desc">Team A vs Team B. Log goals and own goals in real time</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">👥</div>
+          <div class="feature-title">Member Management</div>
+          <div class="feature-desc">Manage roster and on-field members on the spot</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📤</div>
+          <div class="feature-title">Result Sharing</div>
+          <div class="feature-desc">Share match results as formatted text in seconds</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">☁️</div>
+          <div class="feature-title">Drive Backup</div>
+          <div class="feature-desc">Auto-save to Google Drive. Up to 5 generations retained</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">▶️</div>
+          <div class="feature-title">YouTube Integration</div>
+          <div class="feature-desc">Bulk-update titles and descriptions for match videos</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔴</div>
+          <div class="feature-title">Live Activities</div>
+          <div class="feature-desc">Real-time score on the Lock Screen &amp; Dynamic Island</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab Structure -->
+    <section class="section" id="tabs">
+      <div class="section-eyebrow">02 / App Layout</div>
+      <h2>Tab Structure</h2>
+      <p>The app is organized into four tabs at the bottom of the screen.</p>
+
+      <div class="tabs-display">
+        <div class="tab-item">
+          <div class="tab-number">1</div>
+          <div class="tab-name">Score Input</div>
+          <div class="tab-desc">Match setup &amp; scoring</div>
+        </div>
+        <div class="tab-item">
+          <div class="tab-number">2</div>
+          <div class="tab-name">Score History</div>
+          <div class="tab-desc">Past match results</div>
+        </div>
+        <div class="tab-item">
+          <div class="tab-number">3</div>
+          <div class="tab-name">YouTube</div>
+          <div class="tab-desc">Video linking &amp; sync</div>
+        </div>
+        <div class="tab-item">
+          <div class="tab-number">4</div>
+          <div class="tab-name">Drive</div>
+          <div class="tab-desc">Backup management</div>
+        </div>
+      </div>
+
+      <h3>Home Screen Auth Status</h3>
+      <p>Your Google account and YouTube connection status are always shown below the app title.</p>
+      <div class="auth-status">
+        <div class="auth-row">
+          <div class="auth-dot google"></div>
+          <span style="color:var(--text-muted); font-size:13px;">Google: example@gmail.com (Signed in)</span>
+        </div>
+        <div class="auth-row">
+          <div class="auth-dot youtube"></div>
+          <span style="color:var(--text-muted); font-size:13px;">YouTube: Connected</span>
+        </div>
+      </div>
+      <p>If you are not signed in, a sign-in prompt is displayed instead.</p>
+    </section>
+
+    <!-- Match Setup -->
+    <section class="section" id="setup">
+      <div class="section-eyebrow">03 / Recording a Match</div>
+      <h2>Match Setup</h2>
+      <p>Open the <strong>Match Setup</strong> screen from the Score Input tab and configure the following before kick-off.</p>
+
+      <table>
+        <thead>
+          <tr><th>Field</th><th>Description</th><th>Required</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Sleep off</strong></td>
+            <td>Prevents the screen from dimming during a match. Toggle at the very top of Match Setup. Automatically disables when you leave the match screen.</td>
+            <td>Optional</td>
+          </tr>
+          <tr>
+            <td><strong>Team Names</strong></td>
+            <td>Names for Team A and Team B. Select from My Teams for auto-fill, or choose from a dropdown of the last 3 used names.</td>
+            <td>Required</td>
+          </tr>
+          <tr>
+            <td><strong>Half Duration</strong></td>
+            <td>Duration of each half in minutes. Enables the in-match timer when set.</td>
+            <td>Optional</td>
+          </tr>
+          <tr>
+            <td><strong>Roster Members</strong></td>
+            <td>Select players called up for the day. Limits scorer candidates to the roster. Reuse from the last 10 roster lists (saved per team).</td>
+            <td>Optional</td>
+          </tr>
+          <tr>
+            <td><strong>On-field Members</strong></td>
+            <td>Track who is currently playing. Toggle on/off with a checkbox during the match. On-field players appear at the top of the scorer list.</td>
+            <td>Optional</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <span>Roster and On-field can be used independently or together. Neither is required to start recording a match.</span>
+      </div>
+    </section>
+
+    <!-- During the Match -->
+    <section class="section" id="match">
+      <div class="section-eyebrow">04 / Recording a Match</div>
+      <h2>During the Match</h2>
+
+      <h3>Logging a Goal</h3>
+      <p>Tap the goal button to open the scorer selection screen. On-field players appear at the top of the list.</p>
+
+      <table>
+        <thead>
+          <tr><th>Action</th><th>Result</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Select a player</td>
+            <td>Records the goal with the player's number and name</td>
+          </tr>
+          <tr>
+            <td>Select <code>?</code></td>
+            <td>Records as unknown scorer — shown as "?" in shared text</td>
+          </tr>
+          <tr>
+            <td>Select player + add <code>?</code></td>
+            <td>Marks the scorer as uncertain — shown as "#10 Sato ?" in shared text</td>
+          </tr>
+          <tr>
+            <td>Own goal</td>
+            <td>Adds a point to the opposing team</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Half Time &amp; Full Time</h3>
+      <p>Tap <strong>End of First Half</strong> to move to the half-time screen, where you can share the first-half result. After the second half ends, the app navigates to the Result screen.</p>
+
+      <h3>Extra Time &amp; Penalty Shootout</h3>
+      <p>Extra time (first and second periods) and penalty shootouts can also be recorded. Phase labels are displayed in English.</p>
+    </section>
+
+    <!-- Result & Sharing -->
+    <section class="section" id="result">
+      <div class="section-eyebrow">05 / Recording a Match</div>
+      <h2>Result &amp; Sharing</h2>
+      <p>After the match, review and share results from the Result screen.</p>
+
+      <table>
+        <thead>
+          <tr><th>Button</th><th>What it shares</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Quick Share (Recommended)</strong></td>
+            <td>Full match result in one tap — the easiest sharing option</td>
+          </tr>
+          <tr>
+            <td><strong>Detailed Result</strong></td>
+            <td>Full match + first half + second half (+ extra time / PK if applicable)</td>
+          </tr>
+          <tr>
+            <td><strong>1st Half / 2nd Half</strong></td>
+            <td>Share each half individually</td>
+          </tr>
+          <tr>
+            <td><strong>Extra Time</strong></td>
+            <td>Shown only when extra time was played</td>
+          </tr>
+          <tr>
+            <td><strong>Quick Edit</strong></td>
+            <td>Correct scorers, names, or timestamps before sharing. <a href="#tweak" style="color:var(--green)">See next section.</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <span>When you tap any share button, a preview of the text is shown first so you can confirm the content before sending.</span>
+      </div>
+    </section>
+
+    <!-- Quick Edit -->
+    <section class="section" id="tweak">
+      <div class="section-eyebrow">06 / Recording a Match</div>
+      <h2>Quick Edit</h2>
+      <p>After a match — or from the history — you can make small corrections before sharing.</p>
+
+      <h3>What you can edit</h3>
+      <table>
+        <thead>
+          <tr><th>Category</th><th>Details</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Goals</strong></td>
+            <td>Change scorer name/number; add or delete goal events (score is recalculated automatically)</td>
+          </tr>
+          <tr>
+            <td><strong>Text only</strong></td>
+            <td>Match name, date/time, team names, match duration text, PK score display text</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>How to edit</h3>
+      <p>Goal events are listed as rows like <strong>"1st Half 5' A #10 Sato"</strong>. Tap any part of the row — phase, time, team, or scorer — to open a small dialog for editing just that field.</p>
+
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <span>You cannot directly overwrite the score number. The score is always derived from goal events — add or delete events to change it.</span>
+      </div>
+
+      <h3>Editing from History</h3>
+      <p>In Score History, select <strong>exactly 1</strong> result and tap "Quick Edit Selected Result" to open the edit screen. Selecting 0 or 2+ results will show an error.</p>
+    </section>
+
+    <!-- Match History -->
+    <section class="section" id="history">
+      <div class="section-eyebrow">07 / Data Management</div>
+      <h2>Match History</h2>
+      <p>All past match results are listed in the Score History tab.</p>
+
+      <h3>Deleting &amp; Trash</h3>
+      <p>Select results and tap Delete to move them to the trash. The trash holds up to <strong>10 items</strong>, and each can be restored with "Undo".</p>
+
+      <h3>Reusing Roster Lists</h3>
+      <p>When selecting Roster Members in Match Setup, you can pick from your last 10 roster lists (stored per team) to quickly reuse the same lineup.</p>
+    </section>
+
+    <!-- My Teams -->
+    <section class="section" id="myteams">
+      <div class="section-eyebrow">08 / Data Management</div>
+      <h2>My Teams</h2>
+      <p>Register your teams and player rosters to reuse them across matches.</p>
+
+      <h3>Profile Name vs. Score Display Name</h3>
+      <table>
+        <thead>
+          <tr><th>Field</th><th>Purpose</th><th>Example</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Profile Name</strong><br><code>name</code></td>
+            <td>Identifies the team in the My Teams list</td>
+            <td>Friends FC (Yamada)</td>
+          </tr>
+          <tr>
+            <td><strong>Score Display Name</strong><br><code>displayName</code></td>
+            <td>Name shown on the scoreboard and in match records (optional)</td>
+            <td>Friends FC</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <span>If Score Display Name is left blank, the Profile Name is used on the scoreboard. Useful when you have two profiles — e.g. "Friends FC (Yamada)" and "Friends FC (Suzuki)" — that should both appear as "Friends FC" during a match.</span>
+      </div>
+
+      <h3>Export &amp; Import</h3>
+      <p>Team data can be exported as JSON or CSV. Use this to migrate data to a new device or to keep a manual backup.</p>
+    </section>
+
+    <!-- Google Drive Backup -->
+    <section class="section" id="drive">
+      <div class="section-eyebrow">09 / Data Management</div>
+      <h2>Google Drive Backup</h2>
+      <p>Match records and team data are automatically backed up to Google Drive. Use it to transfer data to a new device or recover from accidental changes.</p>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-num">1</div>
+          <div class="flow-content">
+            <div class="flow-title">Sign in to Google</div>
+            <div class="flow-body">Sign in from the auth status area on the home screen. The app attempts a silent sign-in automatically at launch.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">2</div>
+          <div class="flow-content">
+            <div class="flow-title">Automatic Backup</div>
+            <div class="flow-body">A backup is triggered automatically whenever data changes (debounced to avoid excessive writes).</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">3</div>
+          <div class="flow-content">
+            <div class="flow-title">Auto-Restore on Launch</div>
+            <div class="flow-body">On startup, the app compares the Drive backup with local data. If Drive is newer, it restores automatically.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">4</div>
+          <div class="flow-content">
+            <div class="flow-title">Manual Generation Restore</div>
+            <div class="flow-body">Open the Drive tab (tab 4) to view backup history. Up to 5 generations are kept — tap any generation to restore it.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <span>Backups are stored in Google Drive's hidden AppData folder and do not count against your regular Drive storage quota.</span>
+      </div>
+    </section>
+
+    <!-- YouTube -->
+    <section class="section" id="youtube">
+      <div class="section-eyebrow">10 / Integrations</div>
+      <h2>YouTube Integration</h2>
+      <p>Link your match recordings on YouTube and update their metadata directly from the app.</p>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-num">1</div>
+          <div class="flow-content">
+            <div class="flow-title">Open the YouTube Tab</div>
+            <div class="flow-body">Tab 3 automatically fetches your channel's video list and playlists.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">2</div>
+          <div class="flow-content">
+            <div class="flow-title">Link Videos to Match Phases</div>
+            <div class="flow-body">Assign a video to each match phase (1st half, 2nd half, etc.).</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">3</div>
+          <div class="flow-content">
+            <div class="flow-title">Select a Playlist (Optional)</div>
+            <div class="flow-body">Choose a playlist from the dropdown. "Do not add" is the default option.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">4</div>
+          <div class="flow-content">
+            <div class="flow-title">Tap "Sync to YouTube"</div>
+            <div class="flow-body">Titles and descriptions are updated in bulk. Videos are also added to the selected playlist at the same time.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live Activities -->
+    <section class="section" id="liveactivity">
+      <div class="section-eyebrow">11 / Integrations</div>
+      <h2>Live Activities (iOS)</h2>
+      <p>On iOS 16.1 or later, the score and elapsed time are displayed in real time on the Lock Screen and Dynamic Island during a match.</p>
+
+      <table>
+        <thead>
+          <tr><th>Location</th><th>Content</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Lock Screen</strong></td>
+            <td>Score, team names, and remaining / elapsed time</td>
+          </tr>
+          <tr>
+            <td><strong>Dynamic Island</strong></td>
+            <td>Compact score and time display</td>
+          </tr>
+          <tr>
+            <td><strong>StandBy Screen</strong></td>
+            <td>Score visible while charging in StandBy mode</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <span>You can press the Home button mid-match and still check the score on the Lock Screen. On iOS 16.0 or earlier, Live Activities is silently disabled — all other features work normally.</span>
+      </div>
+    </section>
+
+    <!-- Changelog -->
+    <section class="section" id="changelog">
+      <div class="section-eyebrow">12 / Reference</div>
+      <h2>Changelog</h2>
+
+      <div class="history-row">
+        <div class="history-version">v1.0.14</div>
+        <div class="history-items">
+          <ul>
+            <li><span class="tag new">NEW</span>Google Drive Backup with 5-generation management</li>
+            <li><span class="tag new">NEW</span>YouTube playlist registration support</li>
+            <li><span class="tag new">NEW</span>Score Display Name field in My Teams</li>
+            <li><span class="tag ui">UI</span>Google / YouTube auth status always shown on home screen</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="history-row">
+        <div class="history-version">v1.0.13</div>
+        <div class="history-items">
+          <ul>
+            <li><span class="tag fix">FIX</span>Fixed an issue where iOS would kill the app after it moved to the background</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="history-row">
+        <div class="history-version">v1.0.12</div>
+        <div class="history-items">
+          <ul>
+            <li><span class="tag new">NEW</span>Live Activities support (Lock Screen &amp; Dynamic Island)</li>
+            <li><span class="tag ui">UI</span>Phase labels localized (1st Half, 2nd Half, Extra Time 1st/2nd, PK)</li>
+            <li><span class="tag ui">UI</span>In-match timer displayed larger across two lines</li>
+            <li><span class="tag fix">FIX</span>Fixed auto-save not triggering when moving to background</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="history-row">
+        <div class="history-version">v1.0.9</div>
+        <div class="history-items">
+          <ul>
+            <li><span class="tag new">NEW</span>Sleep off — prevent screen from dimming during a match</li>
+            <li><span class="tag new">NEW</span>Quick Edit for post-match corrections</li>
+            <li><span class="tag new">NEW</span>Delete results &amp; trash bin (up to 10 items)</li>
+            <li><span class="tag new">NEW</span>Mark scorers as unknown (<code>?</code>) or uncertain (name + <code>?</code>)</li>
+            <li><span class="tag ui">UI</span>Quick Share button &amp; share preview added</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="history-row">
+        <div class="history-version">v1.0.7</div>
+        <div class="history-items">
+          <ul>
+            <li><span class="tag ui">UI</span>Match name used as result heading; 3-line score display</li>
+            <li><span class="tag new">NEW</span>Match name history dropdown (last 3 entries)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="history-row">
+        <div class="history-version">v1.0.5</div>
+        <div class="history-items">
+          <ul>
+            <li><span class="tag new">NEW</span>Roster Members feature</li>
+            <li><span class="tag new">NEW</span>On-field Members management</li>
+            <li><span class="tag new">NEW</span>Reuse from last 10 roster lists</li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<script>
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('nav a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => {
+          l.style.color = '';
+          l.style.borderLeftColor = 'transparent';
+        });
+        navLinks.forEach(l => {
+          if (l.getAttribute('href') === '#' + entry.target.id) {
+            l.style.color = 'var(--green)';
+            l.style.borderLeftColor = 'var(--green)';
+          }
+        });
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
